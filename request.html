@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit a request for HTML/CSS support for your project</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/yeti/bootstrap.min.css"/>
+</head>
+<body>
+
+<div class="container">
+    <div class="header clearfix">
+        <div id="navigation-component">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    <li role="presentation"><a href="index.html">Home</a></li>
+                    <li role="presentation" class="active"><a href="request.html">Submit Request</a></li>
+                    <li role="presentation"><a href="status.html">Check Status</a></li>
+                </ul>
+            </nav>
+        </div>
+        <h3 class="text-muted">HTML/CSS Request</h3>
+    </div>
+
+    <div class="row">
+        <div class="well bs-component col-xs-12 col-sm-6 col-sm-offset-3">
+            <form class="form-horizontal" id="input-component" data-destination="/demo">
+                <fieldset>
+                    <legend>Submit a New Request</legend>
+                    <div class="form-group">
+                        <label for="inputTitle" class="col-lg-2 control-label">Title</label>
+                        <div class="col-xs-10">
+                            <input name="title" type="text" class="form-control" id="inputTitle" placeholder="This is the Title">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputTitle" class="col-lg-2 control-label">Product</label>
+                        <div class="col-xs-10">
+                            <input name="product" type="text" class="form-control" id="inputTitle" placeholder="Which product is this for?">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="textArea" class="col-lg-2 control-label">Description</label>
+                        <div class="col-xs-10">
+                            <textarea name="description" class="form-control" rows="7" id="textArea" placeholder="This is the description of the request"></textarea>
+                            <span class="help-block"> Include any details such as links, repro instructions, or deadlines you think are important to consider.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <button data-action="create" type="submit" class="btn btn-primary pull-right">Submit Request</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+
+
+    <footer class="footer">
+        <br/><br/>
+        <p>© James Futhey 2015. All Rights Reserved.</p>
+    </footer>
+
+</div> <!-- /container -->
+
+
+</body>
+</html>
