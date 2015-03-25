@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="3600">
+    <title>BitTitan Television</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            z-index: 999999;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="iframe" frameborder="0"></iframe>
+    <script>
+        var monitors = {
+            sales1 : {
+                url: ""
+            },
+            sales2 : {
+                url: ""
+            },
+            sales3 : {
+                url: ""
+            },
+            support1 : {
+                url: "https://www.bittitan.com/support"
+            },
+            support2 : {
+                url: ""
+            },
+            support3 : {
+                url: ""
+            },
+            admin1 : {
+                url: ""
+            },
+            admin2 : {
+                url: ""
+            },
+            admin3 : {
+                url: ""
+            },
+            ops1 : {
+                url: ""
+            },
+            ops2 : {
+                url: ""
+            },
+            dev1 : {
+                url: ""
+            },
+            dev2 : {
+                url: ""
+            },
+            dev3 : {
+                url: ""
+            }
+        };
+        var hash = window.location.hash;
+        if (hash.indexOf('#') === 0)
+            hash = hash.substr(1).toLowerCase();
+
+        console.log("Param: " + hash, "Iframe URL: " + monitors[hash].url);
+        document.getElementById('iframe').src = monitors[hash].url;
+    </script>
+</body>
+</html>
