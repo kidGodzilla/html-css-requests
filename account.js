@@ -1,4 +1,7 @@
 (function () {
+
+    var firebaseRef = new Firebase("https://html-css.firebaseio.com/");
+
     function resetPassword () {
         vex.dialog.open({
             message: 'To reset your password, please enter your email address:',
@@ -44,13 +47,9 @@
 
     function auth () {
         // IF we have a callback
-        if (callback && typeof(callback) === "function") {
-            // Do not require authentication for SVGPEN (demo site)
-            if (window.location.host === "svgpen.com" || window.location.host === "www.svgpen.com") return callback();
-
-            // Do not require authentication for demos
-            if (core.get('isTemplate')) return callback();
-        }
+        //if (callback && typeof(callback) === "function") {
+        //
+        //}
 
         var authData = firebaseRef.getAuth();
 
@@ -66,7 +65,7 @@
             // Modal
             vex.dialog.open({
                 message: 'Enter your username and password:',
-                input: "<input name=\"email\" type=\"text\" placeholder=\"Email\" required />\n<input name=\"password\" type=\"password\" placeholder=\"Password\" required />",
+                input: "<input name=\"email\" type=\"text\" placeholder=\"Email\" required />\n<input name=\"password\" type=\"password\" placeholder=\"Password\" required /><br>Don't have an account? <a href='#' onclick='$(\".vex-dialog-button-secondary\").click();core.createAccount()'>Create an account now</a>",
                 buttons: [
                     $.extend({}, vex.dialog.buttons.YES, {
                         text: 'Login'
@@ -106,7 +105,7 @@
             input: "<input name=\"email\" type=\"text\" placeholder=\"Email\" required />\n<input name=\"password\" type=\"password\" placeholder=\"Password\" required />",
             buttons: [
                 $.extend({}, vex.dialog.buttons.YES, {
-                    text: 'Login'
+                    text: 'Create Account'
                 }), $.extend({}, vex.dialog.buttons.NO, {
                     text: 'Back'
                 })
@@ -116,6 +115,47 @@
                     return false; // Cancelled
                 }
                 console.log(data.email, data.password);
+
+                if (data.email.indexOf('@bittitan.com') === -1) {
+                    Messenger().post({
+                        message: "Please use your BitTitan.com email",
+                        type: 'error',
+                        showCloseButton: true
+                    });
+                }
+
+                firebaseRef.createUser({
+                    email: data.email,
+                    password: data.password
+                }, function(error, userData) {
+                    if (error) {
+                        switch (error.code) {
+                            case "EMAIL_TAKEN":
+                                console.log("The new user account cannot be created because the email is already in use.");
+                                Messenger().post({
+                                    message: "The new user account cannot be created because the email is already in use.",
+                                    type: 'error',
+                                    showCloseButton: true
+                                });
+                                break;
+                            case "INVALID_EMAIL":
+                                console.log("The specified email is not a valid email.");
+                                Messenger().post({
+                                    message: "The specified email is not a valid email.",
+                                    type: 'error',
+                                    showCloseButton: true
+                                });
+                                break;
+                            default:
+                                console.log("Error creating user:", error);
+                                Messenger().post("Error creating user:", error);
+                        }
+                    } else {
+                        console.log("Successfully created user account with uid:", userData.uid);
+                        Messenger().post("Your account was created successfully.");
+                    }
+                });
+
             }
         });
     }
