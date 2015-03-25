@@ -37,4 +37,5 @@
 
     loadScript("core.js");
     loadScript("account.js");
+    loadScript("utils.js");
 })();

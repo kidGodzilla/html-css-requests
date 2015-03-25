@@ -45,11 +45,7 @@
         });
     }
 
-    function auth () {
-        // IF we have a callback
-        //if (callback && typeof(callback) === "function") {
-        //
-        //}
+    function auth (callback) {
 
         var authData = firebaseRef.getAuth();
 
@@ -58,7 +54,7 @@
             var userID = authData.uid;
             core.set('userID', authData.uid);
             core.set('userEmail', authData.password.email);
-            getSitesObj(userID);
+
             if (callback && typeof(callback) === "function")
                 callback();
         } else {
@@ -90,7 +86,7 @@
                             var userID = authData.uid;
                             core.set('userID', authData.uid);
                             core.set('userEmail', authData.password.email);
-                            getSitesObj(userID);
+
                             if (callback && typeof(callback) === "function") callback();
                         }
                     });
@@ -153,6 +149,9 @@
                     } else {
                         console.log("Successfully created user account with uid:", userData.uid);
                         Messenger().post("Your account was created successfully.");
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2500);
                     }
                 });
 

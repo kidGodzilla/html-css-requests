@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <title>Submit a request for HTML/CSS support for your project</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.4/yeti/bootstrap.min.css"/>
+    <script src="loader.js"></script>
+    <style>
+        #form {
+            visibility: hidden;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,8 +28,8 @@
     </div>
 
     <div class="row">
-        <div class="well bs-component col-xs-12 col-sm-6 col-sm-offset-3">
-            <form class="form-horizontal" id="input-component" data-destination="/demo">
+        <div id="form" class="well bs-component col-xs-12 col-sm-6 col-sm-offset-3">
+            <form class="form-horizontal" id="input-component">
                 <fieldset>
                     <legend>Submit a New Request</legend>
                     <div class="form-group">
@@ -33,9 +39,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputTitle" class="col-lg-2 control-label">Product</label>
+                        <label for="inputProduct" class="col-lg-2 control-label">Product</label>
                         <div class="col-xs-10">
-                            <input name="product" type="text" class="form-control" id="inputTitle" placeholder="Which product is this for?">
+                            <input name="product" type="text" class="form-control" id="inputProduct" placeholder="Which product is this for?">
                         </div>
                     </div>
                     <div class="form-group">
@@ -47,7 +53,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-lg-12">
-                            <button data-action="create" type="submit" class="btn btn-primary pull-right">Submit Request</button>
+                            <button id="submit" type="submit" class="btn btn-primary pull-right">Submit Request</button>
                         </div>
                     </div>
                 </fieldset>
@@ -64,7 +70,42 @@
 
 </div> <!-- /container -->
 
-<script src="loader.js"></script>
+<script>
+    $(document).ready(function () {
+        core.auth(function () {
+            $('#form').css('visibility', 'visible');
+        });
+    });
+
+    $('#input-component').submit(function () {
+        var title = $('input[name=title]').val();
+        var product = $('input[name=product]').val();
+        var description = $('textarea[name=description]').val();
+        var created = + new date;
+        var uid = core.generateUID();
+
+        var request = {
+            title: title,
+            product: product,
+            description: description,
+            created: created
+        };
+
+        console.log(request);
+
+        var firebaseRef = new Firebase("https://html-css.firebaseio.com/requests/" + uid);
+
+        firebaseRef.set({
+            title: "Hello World!",
+            author: "Firebase",
+            location: {
+                city: "San Francisco",
+                state: "California",
+                zip: 94103
+            }
+        });
+    });
+</script>
 </body>
 </html>
 
