@@ -77,33 +77,39 @@
         });
     });
 
-    $('#input-component').submit(function () {
+    $('#input-component').submit(function (e) {
+        e.preventDefault();
+
         var title = $('input[name=title]').val();
         var product = $('input[name=product]').val();
         var description = $('textarea[name=description]').val();
-        var created = + new date;
+        var created = + new Date;
         var uid = core.generateUID();
+        var userID = core.get('userID');
+        var userEmail = core.get('userEmail');
 
-        var request = {
+        var firebaseRef = new Firebase("https://html-css.firebaseio.com/requests/" + userID + "/" + uid);
+        firebaseRef.set({
             title: title,
             product: product,
             description: description,
             created: created
-        };
-
-        console.log(request);
-
-        var firebaseRef = new Firebase("https://html-css.firebaseio.com/requests/" + uid);
-
-        firebaseRef.set({
-            title: "Hello World!",
-            author: "Firebase",
-            location: {
-                city: "San Francisco",
-                state: "California",
-                zip: 94103
-            }
         });
+
+        // Send email
+        $.ajax({
+            url: "http://wpages.co/mail/reqs.php?address=" + userEmail + "&action=" + "newReq" + "&auth=" + "9i340w43fjk3fj4g90jegrklf4j359gjrefkl4t5tgfds",
+            dataType: 'jsonp'
+          }).done(function (data) {
+                    Messenger().post("Your request was submitted successfully.");
+                })
+            .fail(function (e) {
+                Messenger().post({
+                    message: "There was an error processing your request.",
+                    type: 'error',
+                    showCloseButton: true
+                });
+            });
     });
 </script>
 </body>
